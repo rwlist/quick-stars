@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"regexp"
 
 	"strings"
 
@@ -33,12 +34,19 @@ func starToString(star *github.StarredRepository) string {
 	return text
 }
 
+func containsSubstr(subj, substr string) bool {
+	subj = strings.ToLower(subj)
+	substr = strings.ToLower(substr)
+	return strings.Contains(subj, substr)
+}
+
 const entrySeparator = "//-----------------------"
 
 var (
 	username = flag.String("username", "petuhovskiy", "your github username")
 	token    = flag.String("token", "", "github oauth token")
-	filter   = flag.String("filter", "github", "filter by substring inclusion in combined star description")
+	filter   = flag.String("filter", "github", "filter by substring inclusion (ignoring case) in combined star description")
+	regex    = flag.String("regex", "", "filter by regular expression substring")
 )
 
 func main() {
@@ -95,8 +103,13 @@ func main() {
 
 	found := 0
 	for _, repo := range repos {
-		if !strings.Contains(repo, *filter) {
+		if !containsSubstr(repo, *filter) {
 			continue
+		}
+		if *regex != "" {
+			if ok, _ := regexp.MatchString(*regex, repo); !ok {
+				continue
+			}
 		}
 
 		fmt.Println(repo)
