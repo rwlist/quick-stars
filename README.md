@@ -11,10 +11,12 @@ go get -u gtihub.com/rwlist/quick-stars
 ## Usage
 
 ```text
-quick-stars [-username] [-filter] [-token]
+quick-stars [-username] [-filter] [-regex] [-token]
 
   -filter string
-        filter by substring inclusion in combined star description (default "github")
+        filter by substring inclusion (ignoring case) in combined star description (default "github")
+  -regex string
+        filter by regular expression substring
   -token string
         github oauth token
   -username string
