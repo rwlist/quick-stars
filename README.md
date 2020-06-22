@@ -5,7 +5,7 @@ A quick project for filtering github stars
 ## Installation
 
 ```bash
-go get -u gtihub.com/rwlist/quick-stars
+go get -u github.com/rwlist/quick-stars
 ```
 
 ## Usage
